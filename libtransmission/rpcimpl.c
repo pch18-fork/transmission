@@ -2221,6 +2221,15 @@ static char const* sessionSet(tr_session* session, tr_variant* args_in, tr_varia
         }
     }
 
+    //write to settings file
+    char const* configDir;
+    configDir = tr_sessionGetConfigDir(session);
+    tr_variant settings;
+    tr_variantInitDict(&settings, 0);
+    tr_sessionLoadSettings(&settings, configDir, "transmission-daemon");
+    tr_sessionSaveSettings(session, configDir, &settings);
+    //write to settings file
+    
     notify(session, TR_RPC_SESSION_CHANGED, NULL);
 
     return NULL;
